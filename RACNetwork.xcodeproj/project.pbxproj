@@ -17,6 +17,7 @@
 		4154089723054EA20098A7E7 /* TKBaseRACRequest+RACSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4154089623054EA20098A7E7 /* TKBaseRACRequest+RACSupport.m */; };
 		4154089A230557300098A7E7 /* TKNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 41540899230557300098A7E7 /* TKNetWork.m */; };
 		417128FC230D19DE0013E289 /* AFJSONResponseSerializer+TKAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 417128FB230D19DE0013E289 /* AFJSONResponseSerializer+TKAdd.m */; };
+		417128FF230E70520013E289 /* TKUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 417128FE230E70520013E289 /* TKUnicode.m */; };
 		DB49C4E198C3D4D6F2363B9A /* libPods-RACNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C504D3F1E55D24E5FF1A80E /* libPods-RACNetwork.a */; };
 /* End PBXBuildFile section */
 
@@ -39,9 +40,10 @@
 		4154089623054EA20098A7E7 /* TKBaseRACRequest+RACSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TKBaseRACRequest+RACSupport.m"; sourceTree = "<group>"; };
 		41540898230557300098A7E7 /* TKNetWork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKNetWork.h; sourceTree = "<group>"; };
 		41540899230557300098A7E7 /* TKNetWork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TKNetWork.m; sourceTree = "<group>"; };
-		417128F9230BD34C0013E289 /* TKTestProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKTestProtocol.h; sourceTree = "<group>"; };
 		417128FA230D19DE0013E289 /* AFJSONResponseSerializer+TKAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AFJSONResponseSerializer+TKAdd.h"; sourceTree = "<group>"; };
 		417128FB230D19DE0013E289 /* AFJSONResponseSerializer+TKAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AFJSONResponseSerializer+TKAdd.m"; sourceTree = "<group>"; };
+		417128FD230E70520013E289 /* TKUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKUnicode.h; sourceTree = "<group>"; };
+		417128FE230E70520013E289 /* TKUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKUnicode.m; sourceTree = "<group>"; };
 		426DF87A488159F264B48DCC /* Pods-RACNetwork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RACNetwork.debug.xcconfig"; path = "Target Support Files/Pods-RACNetwork/Pods-RACNetwork.debug.xcconfig"; sourceTree = "<group>"; };
 		68A27AC80EF0F62269ED5E24 /* Pods-RACNetwork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RACNetwork.release.xcconfig"; path = "Target Support Files/Pods-RACNetwork/Pods-RACNetwork.release.xcconfig"; sourceTree = "<group>"; };
 		7C504D3F1E55D24E5FF1A80E /* libPods-RACNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RACNetwork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,7 +87,8 @@
 				4154087A230410B30098A7E7 /* AppDelegate.m */,
 				4154087C230410B30098A7E7 /* ViewController.h */,
 				4154087D230410B30098A7E7 /* ViewController.m */,
-				417128F9230BD34C0013E289 /* TKTestProtocol.h */,
+				417128FD230E70520013E289 /* TKUnicode.h */,
+				417128FE230E70520013E289 /* TKUnicode.m */,
 				4154087F230410B30098A7E7 /* Main.storyboard */,
 				41540882230410B50098A7E7 /* Assets.xcassets */,
 				41540884230410B50098A7E7 /* LaunchScreen.storyboard */,
@@ -232,6 +235,7 @@
 				4154089723054EA20098A7E7 /* TKBaseRACRequest+RACSupport.m in Sources */,
 				4154089323050D680098A7E7 /* TKBaseRACRequest.m in Sources */,
 				417128FC230D19DE0013E289 /* AFJSONResponseSerializer+TKAdd.m in Sources */,
+				417128FF230E70520013E289 /* TKUnicode.m in Sources */,
 				4154087B230410B30098A7E7 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

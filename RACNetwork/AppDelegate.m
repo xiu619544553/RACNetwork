@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <YTKNetwork.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+    // 配置baseUrl
+    YTKNetworkConfig *config = [YTKNetworkConfig sharedConfig];
+    config.baseUrl = @"http://test.www.superkid.cn";
+    
     return YES;
 }
 

@@ -15,56 +15,55 @@ extern NSString *const RACAFNResponseObjectErrorKey;
 
 @interface TKBaseRACRequest (RACSupport)
 
-/// POST请求
-+ (RACSignal *)rac_POST:(NSString *)path
-                 params:(id)params;
 /// 上传单张图片
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-              withImage:(UIImage *)image;
+                  image:(UIImage *)image;
 /// 上传多图
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-             withImages:(NSArray *)images;
+                 images:(NSArray *)images;
 /// 上传多图
 /// imageDict：key为图片上传的表单名，value是图片
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-          withImageDict:(NSDictionary<NSString *, UIImage *> *)imageDict;
+              imageDict:(NSDictionary<NSString *, UIImage *> *)imageDict;
 /// 上传视频
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-             withVideos:(NSArray *)videos;
+                 videos:(NSArray *)videos;
 
 
 
 /// A convenience around -GET:parameters:success:failure: that returns a cold signal of the
 /// resulting JSON object and response headers or error.
-+ (RACSignal *)rac_GET:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters;
++ (RACSignal *)rac_GET:(NSString *)path params:(id)params;
 
 /// A convenience around -HEAD:parameters:success:failure: that returns a cold signal of the
 /// resulting JSON object and response headers or error.
-+ (RACSignal *)rac_HEAD:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters;
++ (RACSignal *)rac_HEAD:(NSString *)path params:(id)params;
 
 /// A convenience around -POST:parameters:success:failure: that returns a cold signal of the
 /// result.
-+ (RACSignal *)rac_POST:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters;
++ (RACSignal *)rac_POST:(NSString *)path params:(id)params;
 
 /// A convenience around -POST:parameters:constructingBodyWithBlock:success:failure: that returns a
 /// cold signal of the resulting JSON object and response headers or error.
-+ (RACSignal *)rac_POST:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block;
++ (RACSignal *)rac_POST:(NSString *)path
+                 params:(id)params
+constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block;
 
 /// A convenience around -PUT:parameters:success:failure: that returns a cold signal of the
 /// resulting JSON object and response headers or error.
-+ (RACSignal *)rac_PUT:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters;
++ (RACSignal *)rac_PUT:(NSString *)path params:(id)params;
 
 /// A convenience around -PATCH:parameters:success:failure: that returns a cold signal of the
 /// resulting JSON object and response headers or error.
-+ (RACSignal *)rac_PATCH:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters;
++ (RACSignal *)rac_PATCH:(NSString *)path params:(id)params;
 
 /// A convenience around -DELETE:parameters:success:failure: that returns a cold signal of the
 /// resulting JSON object and response headers or error.
-+ (RACSignal *)rac_DELETE:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters;
++ (RACSignal *)rac_DELETE:(NSString *)path params:(id)params;
 
 @end
 

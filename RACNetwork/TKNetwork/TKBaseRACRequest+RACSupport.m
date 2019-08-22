@@ -15,71 +15,69 @@ NSString *const RACAFNResponseObjectErrorKey = @"responseObject";
 @implementation TKBaseRACRequest (RACSupport)
 
 #pragma mark - public
-/// POST请求
-+ (RACSignal *)rac_POST:(NSString *)path
-                 params:(id)params {
-    return [self rac_POST:path baseUrl:k_Base_Url parameters:params];
-}
 
 /// 上传图片
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-              withImage:(UIImage *)image {
-    return [self rac_POST:path baseUrl:k_Base_Url parameters:params withImage:image];
+                  image:(UIImage *)image {
+    return [[TKBaseRACRequest rac_requestPath:path method:@"POST" params:params withImages:@[image]]
+            setNameWithFormat:@"%@ -rac_POST: %@, params: %@, image:", self.class, path, params];
 }
 
 /// 上传多图
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-             withImages:(NSArray *)images {
-    return [self rac_POST:path baseUrl:k_Base_Url parameters:params withImages:images];
+                 images:(NSArray *)images {
+    return [[TKBaseRACRequest rac_requestPath:path method:@"POST" params:params withImages:images]
+            setNameWithFormat:@"%@ -rac_POST: %@, params: %@, images:", self.class, path, params];
 }
 
 /// 上传多图
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-          withImageDict:(NSDictionary<NSString *, UIImage *> *)imageDict {
-    return [self rac_POST:path baseUrl:k_Base_Url parameters:params withImageDict:imageDict];
+              imageDict:(NSDictionary<NSString *, UIImage *> *)imageDict {
+    return [[TKBaseRACRequest rac_requestPath:path method:@"POST" params:params imageDict:imageDict]
+            setNameWithFormat:@"%@ -rac_POST: %@, params: %@, imageDict:", self.class, path, params];
 }
 
 /// 上传视频
 + (RACSignal *)rac_POST:(NSString *)path
                  params:(id)params
-             withVideos:(NSArray *)videos {
-    return [self rac_POST:path baseUrl:k_Base_Url parameters:params withVideos:videos];
+                 videos:(NSArray *)videos {
+    return [[TKBaseRACRequest rac_requestPath:path method:@"POST" params:params videos:videos]
+            setNameWithFormat:@"%@ -rac_POST: %@, params: %@, videos:", self.class, path, params];
 }
 
-+ (RACSignal *)rac_GET:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters {
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"GET"]
-            setNameWithFormat:@"%@ -rac_GET: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
+/// GET
++ (RACSignal *)rac_GET:(NSString *)path params:(id)params {
+    return [[TKBaseRACRequest rac_requestPath:path params:params method:@"GET"]
+            setNameWithFormat:@"%@ -rac_GET: %@, params: %@", self.class, path, params];
 }
 
-+ (RACSignal *)rac_HEAD:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters {
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"HEAD"]
-            setNameWithFormat:@"%@ -rac_HEAD: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
-}
-
-+ (RACSignal *)rac_POST:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters {
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"POST"]
-            setNameWithFormat:@"%@ -rac_POST: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
-}
-
+/// POST
 + (RACSignal *)rac_POST:(NSString *)path
-                baseUrl:(NSString *)url
-             parameters:(id)parameters
+                 params:(id)params {
+    return [[TKBaseRACRequest rac_requestPath:path params:params method:@"POST"]
+            setNameWithFormat:@"%@ -rac_POST: %@, params: %@", self.class, path, params];
+}
+
+/// HEAD
++ (RACSignal *)rac_HEAD:(NSString *)path params:(id)params {
+    return [[TKBaseRACRequest rac_requestPath:path params:params method:@"HEAD"]
+            setNameWithFormat:@"%@ -rac_HEAD: %@, params: %@", self.class, path, params];
+}
+
+/// 上传数据
++ (RACSignal *)rac_POST:(NSString *)path
+                 params:(id)params
 constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
     return [[RACSignal createSignal:^(id<RACSubscriber> subscriber) {
-        
-        if (url) {
-            YTKNetworkConfig *config = [YTKNetworkConfig sharedConfig];
-            config.baseUrl = url;
-        }
         
         TKBaseRACRequest * request = [TKBaseRACRequest new];
         
         request.racPathURL = path;
         request.racMethod  = @"POST";
-        request.racParameters = parameters;
+        request.racParameters = params;
         
         [request startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
             
@@ -87,57 +85,56 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
             
         }];
         
-        
         return [RACDisposable disposableWithBlock:^{
             [request stop];
         }];
         
         
-    }] setNameWithFormat:@"%@ -rac_POST: %@, parameters: %@, constructingBodyWithBlock:", self.class, path, parameters];
+    }] setNameWithFormat:@"%@ -rac_POST: %@, parameters: %@, constructingBodyWithBlock:", self.class, path, params];
     ;
 }
 
-+ (RACSignal *)rac_PUT:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters {
-    
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"PUT"]
-            setNameWithFormat:@"%@ -rac_PUT: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
-    
+/// PUT
++ (RACSignal *)rac_PUT:(NSString *)path params:(id)params {
+    return [[TKBaseRACRequest rac_requestPath:path params:params method:@"PUT"]
+            setNameWithFormat:@"%@ -rac_PUT: %@, params: %@", self.class, path, params];
 }
 
-+ (RACSignal *)rac_PATCH:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters {
-    
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"PATCH"]
-            setNameWithFormat:@"%@ -rac_PATCH: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
+/// PATCH
++ (RACSignal *)rac_PATCH:(NSString *)path params:(id)params {
+    return [[TKBaseRACRequest rac_requestPath:path params:params method:@"PATCH"]
+            setNameWithFormat:@"%@ -rac_PATCH: %@, params: %@", self.class, path, params];
 }
 
-+ (RACSignal *)rac_DELETE:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters {
-    
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"DELETE"]
-            setNameWithFormat:@"%@ -rac_DELETE: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
+/// DELETE
++ (RACSignal *)rac_DELETE:(NSString *)path params:(id)params {
+    return [[TKBaseRACRequest rac_requestPath:path params:params method:@"DELETE"]
+            setNameWithFormat:@"%@ -rac_DELETE: %@, params: %@", self.class, path, params];
 }
 
-+ (RACSignal *)rac_requestPath:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters method:(NSString *)method {
-    
++ (RACSignal *)rac_requestPath:(NSString *)path
+                        params:(id)params
+                        method:(NSString *)method {
+
     return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
-        
+
         TKBaseRACRequest * req = [TKBaseRACRequest new];
-        
+
         req.racPathURL = path;
         req.racMethod  = method;
-        req.racParameters = parameters;
-        
+        req.racParameters = params;
+
         [req startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-            
-            [self ALTKLogWithRequest:request];
-            
+
+            [TKBaseRACRequest ALTKLogWithRequest:request];
             [TKBaseRACRequest requestResultSuccessWithRequest:request subscribe:subscriber];
+            
         } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
-            
-            [self ALTKLogWithRequest:request];
-            
+
+            [TKBaseRACRequest ALTKLogWithRequest:request];
             [TKBaseRACRequest requestResultFailureWithRequest:request subscribe:subscriber isNetError:YES];
         }];
-        
+
         return [RACDisposable disposableWithBlock:^{
             //信号结束停止请求
             [req stop];
@@ -146,42 +143,19 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
 }
 
 #pragma mark - private
-/// 上传图片
-+ (RACSignal *)rac_POST:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters withImage:(UIImage *)image {
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"POST" withImage:image]
-            setNameWithFormat:@"%@ -rac_POST: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
-}
-
-/// 上传多图
-+ (RACSignal *)rac_POST:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters withImages:(NSArray *)images{
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"POST" withImages:images]
-            setNameWithFormat:@"%@ -rac_POST: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
-}
-
-/// 上传多图
-+ (RACSignal *)rac_POST:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters withImageDict:(NSDictionary<NSString *, UIImage *> *)imageDict {
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"POST" withImageDict:imageDict] setNameWithFormat:@"%@ -rac_POST: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
-}
 
 /// 上传视频
-+ (RACSignal *)rac_POST:(NSString *)path baseUrl:(NSString *)url parameters:(id)parameters withVideos:(NSArray *)videos {
-    return [[self rac_requestPath:path baseUrl:url parameters:parameters method:@"POST" withVideos:videos]
-            setNameWithFormat:@"%@ -rac_POST: %@,baseUrl: %@, parameters: %@", self.class, path,url, parameters];
-}
-
-/// 上传多多视频
 + (RACSignal *)rac_requestPath:(NSString *)path
-                       baseUrl:(NSString *)url
-                    parameters:(id)parameters
                         method:(NSString *)method
-                    withVideos:(NSArray *)videos{
+                        params:(id)params
+                    videos:(NSArray *)videos {
     return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
         
         TKBaseRACRequest * req = [TKBaseRACRequest new];
         
         req.racPathURL = path;
         req.racMethod  = method;
-        req.racParameters = parameters;
+        req.racParameters = params;
         req.videos = videos;
         
         [req startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
@@ -205,9 +179,8 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
 
 /// 上传单图
 + (RACSignal *)rac_requestPath:(NSString *)path
-                       baseUrl:(NSString *)url
-                    parameters:(id)parameters
                         method:(NSString *)method
+                        params:(id)params
                      withImage:(UIImage *)image {
     
     return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
@@ -216,43 +189,8 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
         
         req.racPathURL = path;
         req.racMethod  = method;
-        req.racParameters = parameters;
+        req.racParameters = params;
         req.image = image;
-        
-        [req startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-            
-            [self ALTKLogWithRequest:request];
-            
-            [TKBaseRACRequest requestResultSuccessWithRequest:request subscribe:subscriber];
-        } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
-            
-            [self ALTKLogWithRequest:request];
-            
-            [TKBaseRACRequest requestResultFailureWithRequest:request subscribe:subscriber isNetError:YES];
-        }];
-        
-        return [RACDisposable disposableWithBlock:^{
-            //信号结束停止请求
-            [req stop];
-        }];
-    }];
-    
-}
-/// 上传多图
-+ (RACSignal *)rac_requestPath:(NSString *)path
-                       baseUrl:(NSString *)url
-                    parameters:(id)parameters
-                        method:(NSString *)method
-                    withImages:(NSArray *)images{
-    
-    return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
-        
-        TKBaseRACRequest * req = [TKBaseRACRequest new];
-        
-        req.racPathURL = path;
-        req.racMethod  = method;
-        req.racParameters = parameters;
-        req.images = images;
         
         [req startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
             
@@ -275,17 +213,51 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
 
 /// 上传多图
 + (RACSignal *)rac_requestPath:(NSString *)path
-                       baseUrl:(NSString *)url
-                    parameters:(id)parameters
                         method:(NSString *)method
-                 withImageDict:(NSDictionary<NSString *, UIImage *> *)imageDict {
+                        params:(id)params
+                    withImages:(NSArray *)images {
+    
+    return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
+        
+        TKBaseRACRequest * req = [TKBaseRACRequest new];
+        
+        req.racPathURL = path;
+        req.racMethod  = method;
+        req.racParameters = params;
+        req.images = images;
+        
+        [req startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
+            
+            [self ALTKLogWithRequest:request];
+            
+            [TKBaseRACRequest requestResultSuccessWithRequest:request subscribe:subscriber];
+        } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
+            
+            [self ALTKLogWithRequest:request];
+            
+            [TKBaseRACRequest requestResultFailureWithRequest:request subscribe:subscriber isNetError:YES];
+        }];
+        
+        return [RACDisposable disposableWithBlock:^{
+            //信号结束停止请求
+            [req stop];
+        }];
+    }];
+}
+
+
+/// 上传多图
++ (RACSignal *)rac_requestPath:(NSString *)path
+                        method:(NSString *)method
+                        params:(id)params
+                     imageDict:(NSDictionary<NSString *, UIImage *> *)imageDict {
     return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
         
         TKBaseRACRequest *req = [TKBaseRACRequest new];
         
         req.racPathURL = path;
         req.racMethod  = method;
-        req.racParameters = parameters;
+        req.racParameters = params;
         req.imageDict = imageDict;
         
         [req startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
@@ -322,8 +294,7 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
 #warning 此处需要根据后端字段，指定msg和code
 + (void)requestResultFailureWithRequest:(YTKBaseRequest *)request
                               subscribe:(id<RACSubscriber>)subscriber
-                             isNetError:(BOOL)isNetError
-{
+                             isNetError:(BOOL)isNetError {
     NSDictionary *responseObject = [request.responseObject copy];
     NSString *codeDesc = responseObject[@"msg"];
     NSString *code = responseObject[@"code"];
@@ -354,6 +325,7 @@ constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block {
     id requestBody = bodyParam.allValues.count ? bodyParam : @"请求体为空";
     id responseObject = request.responseObject;
     TKLog(@"【接口】- %@\n【参数】\n%@\n【响应结果】\n%@", urlString, requestBody, responseObject);
+//    NSLog(@"【接口】- %@\n【参数】\n%@\n【响应结果】\n%@", urlString, requestBody, responseObject);
 }
 
 - (void)dealloc {
